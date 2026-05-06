@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Панель наказаний</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, select {
+      width: 300px;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .send { background: #ff3333; color: white; }
+    .clear { background: #555; color: white; }
+  </style>
+</head>
+<body>
+
+  <h1>Панель наказаний</h1>
+
+  <form id="punishForm">
+    <select name="type">
+      <option value="Доган">Доган</option>
+      <option value="Выговор">Выговор</option>
+      <option value="Бан">Бан</option>
+    </select><br>
+
+    <input name="user" placeholder="Кому" required><br>
+    <input name="reason" placeholder="Причина" required><br>
+    <input name="time" placeholder="Время (необязательно)"><br>
+
+    <button class="send">Выдать</button>
+    <button type="button" class="clear" onclick="document.getElementById('punishForm').reset()">Очистить</button>
+  </form>
+
+  <script>
+    document.getElementById("punishForm").onsubmit = async (e) => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(e.target));
+
+      const res = await fetch("/api/punish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user: data.user,
+          reason: data.reason,
+          time: data.time
+        })
+      });
+
+      if (res.ok) {
+        alert("Наказание отправлено!");
+      } else {
+        alert("Ошибка запроса");
+      }
+    };
+  </script>
+
+</body>
+</html>
