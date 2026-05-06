@@ -14,8 +14,8 @@
       align-items: center;
       height: 100vh;
 
-      /* Закатний фон */
-      background: radial-gradient(circle at top, #ffb347 0%, #ff7e5f 30%, #2b1055 75%, #000000 100%);
+      /* Нічне місто на фоні */
+      background: url('https://i.imgur.com/7fF0p7B.jpeg') center/cover no-repeat fixed;
     }
 
     .panel {
@@ -24,6 +24,7 @@
       border-radius: 15px;
       width: 360px;
       box-shadow: 0 0 25px rgba(0,0,0,0.7);
+      backdrop-filter: blur(3px);
     }
 
     h1 {
@@ -57,7 +58,7 @@
 
     input:focus {
       background: #fff;
-      box-shadow: 0 0 8px #ffb347;
+      box-shadow: 0 0 8px #00aaff;
     }
 
     button {
@@ -85,35 +86,3 @@
   <div class="panel">
     <h1>Панель покарань</h1>
 
-    <form id="punishForm">
-      <label for="user">Кому</label>
-      <input name="user" id="user" placeholder="Кого покарати" required>
-
-      <label for="reason">Причина</label>
-      <input name="reason" id="reason" placeholder="Вкажіть причину" required>
-
-      <label for="time">Час (необов'язково)</label>
-      <input name="time" id="time" placeholder="Час покарання (необов'язково)">
-
-      <button>Видати покарання</button>
-    </form>
-  </div>
-
-  <script>
-    document.getElementById("punishForm").onsubmit = async (e) => {
-      e.preventDefault();
-
-      const data = Object.fromEntries(new FormData(e.target));
-
-      const res = await fetch("/api/punish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      alert(res.ok ? "Покарання видано!" : "Помилка запиту");
-    };
-  </script>
-
-</body>
-</html>
