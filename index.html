@@ -1,38 +1,110 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <title>Панель наказаний</title>
+  <title>Панель покарань</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('https://i.imgur.com/8zYvQyV.jpg') center/cover no-repeat;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .panel {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      width: 360px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Impact', sans-serif;
+      font-size: 26px;
+      margin-bottom: 25px;
+      color: #fff;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #f5f5f5;
+      color: #000;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      background: #fff;
+      box-shadow: 0 0 8px #00aaff;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(180deg, #dcdcdc, #a0a0a0);
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(180deg, #ffffff, #c0c0c0);
+      transform: scale(1.03);
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Панель наказаний</h1>
+  <div class="panel">
+    <h1>Панель покарань</h1>
 
-  <form id="punishForm">
-    <input name="user" placeholder="Кому" required><br>
-    <input name="reason" placeholder="Причина" required><br>
-    <input name="time" placeholder="Время (необязательно)"><br>
+    <form id="punishForm">
+      <label for="user">Кому</label>
+      <input name="user" id="user" placeholder="Кого покарати" required>
 
-    <button>Выдать</button>
-  </form>
+      <label for="reason">Причина</label>
+      <input name="reason" id="reason" placeholder="Вкажіть причину" required>
+
+      <label for="time">Час (необов'язково)</label>
+      <input name="time" id="time" placeholder="Час покарання (необов'язково)">
+
+      <button>Видати покарання</button>
+    </form>
+  </div>
 
   <script>
     document.getElementById("punishForm").onsubmit = async (e) => {
       e.preventDefault();
-
       const data = Object.fromEntries(new FormData(e.target));
-
       const res = await fetch("/api/punish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user: data.user,
-          reason: data.reason,
-          time: data.time
-        })
+        body: JSON.stringify(data)
       });
-
-      alert(res.ok ? "Отправлено!" : "Ошибка запроса");
+      alert(res.ok ? "Покарання видано!" : "Помилка запиту");
     };
   </script>
 
