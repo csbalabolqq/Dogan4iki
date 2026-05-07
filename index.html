@@ -102,7 +102,6 @@
       <label for="time">Час (необов'язково)</label>
       <input name="time" id="time" placeholder="Час покарання (необов'язково)">
 
-      <!-- ТИП ПОКАРАННЯ -->
       <label for="punishType">Тип покарання</label>
       <select name="punishType" id="punishType">
         <option value="Попередження">Попередження</option>
@@ -113,7 +112,6 @@
         <option value="Вигнання">Вигнання</option>
       </select>
 
-      <!-- ПОРАДА -->
       <label for="advice">Порада</label>
       <select name="advice" id="advice" onchange="toggleCustomAdvice()">
         <option value="Читати новини кожен день">1. Читати новини кожен день</option>
@@ -135,7 +133,35 @@
     </form>
   </div>
 
-  <script>
+<script>
+function toggleCustomAdvice() {
+  const select = document.getElementById("advice");
+  const custom = document.getElementById("customAdvice");
+  custom.style.display = select.value === "custom" ? "block" : "none";
+}
 
-    function toggleCustomAdvice() {
-      const select
+document.getElementById("punishForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  const data = Object.fromEntries(new FormData(e.target));
+
+  if (data.advice === "custom") {
+    data.advice = data.customAdvice || "Без поради";
+  }
+
+  const res = await fetch("/api/punish", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("Покарання відправлено!");
+  } else {
+    alert("Помилка при відправці!");
+  }
+};
+</script>
+
+</body>
+</html>
