@@ -29,10 +29,13 @@
     h1 {
       text-align: center;
       font-family: 'Impact', sans-serif;
-      font-size: 26px;
+      font-size: 28px;
       margin-bottom: 25px;
       color: #fff;
-      text-shadow: 2px 2px 0 #000;
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.6),
+        0 0 12px rgba(0, 0, 0, 0.9),
+        2px 2px 0 #000;
     }
 
     label {
@@ -42,7 +45,7 @@
       color: #ccc;
     }
 
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -55,7 +58,7 @@
       transition: 0.2s;
     }
 
-    input:focus {
+    input:focus, select:focus {
       background: #fff;
       box-shadow: 0 0 8px #00aaff;
     }
@@ -99,15 +102,52 @@
       <label for="time">Час (необов'язково)</label>
       <input name="time" id="time" placeholder="Час покарання (необов'язково)">
 
+      <!-- ПОРАДА -->
+      <label for="advice">Порада</label>
+      <select name="advice" id="advice" onchange="toggleCustomAdvice()">
+        <option value="Читати новини кожен день">1. Читати новини кожен день</option>
+        <option value="Не пропускати лекції">2. Не пропускати лекції</option>
+        <option value="Слухати старший склад">3. Слухати старший склад</option>
+        <option value="Виконувати те, що сказали">4. Виконувати те, що сказали</option>
+        <option value="Не прогулювати">5. Не прогулювати</option>
+        <option value="custom">6. Своя порада</option>
+      </select>
+
+      <input 
+        name="customAdvice" 
+        id="customAdvice" 
+        placeholder="Введіть свою пораду" 
+        style="display:none; margin-top:10px;"
+      >
+
       <button>Видати покарання</button>
     </form>
   </div>
 
   <script>
+
+    function toggleCustomAdvice() {
+      const select = document.getElementById("advice");
+      const custom = document.getElementById("customAdvice");
+
+      if (select.value === "custom") {
+        custom.style.display = "block";
+        custom.required = true;
+      } else {
+        custom.style.display = "none";
+        custom.required = false;
+      }
+    }
+
     document.getElementById("punishForm").onsubmit = async (e) => {
       e.preventDefault();
 
-      const data = Object.fromEntries(new FormData(e.target));
+      const form = new FormData(e.target);
+      let data = Object.fromEntries(form);
+
+      if (data.advice === "custom") {
+        data.advice = data.customAdvice;
+      }
 
       const res = await fetch("/api/punish", {
         method: "POST",
