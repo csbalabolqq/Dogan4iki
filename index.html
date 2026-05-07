@@ -14,13 +14,11 @@
       align-items: center;
       height: 100vh;
 
-      /* Нью-Йорк — мокрий асфальт + неони */
-      background: url('https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1920&q=80')
-        center/cover no-repeat fixed;
+      background: url('https://i.obozrevatel.com/2018/7/14/8-840x500.jpg?size=1944x924') center/cover no-repeat fixed;
     }
 
     .panel {
-      background: rgba(0, 0, 0, 0.82);
+      background: rgba(0, 0, 0, 0.78);
       padding: 30px;
       border-radius: 15px;
       width: 360px;
@@ -102,20 +100,4 @@
   </div>
 
   <script>
-    document.getElementById("punishForm").onsubmit = async (e) => {
-      e.preventDefault();
-
-      const data = Object.fromEntries(new FormData(e.target));
-
-      const res = await fetch("/api/punish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      alert(res.ok ? "Покарання видано!" : "Помилка запиту");
-    };
-  </script>
-
-</body>
-</html>
+    document.get
