@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { from, user, reason, time, advice } = req.body;
+  const { from, user, reason, time, advice, punishType } = req.body;
 
   if (!from || !user || !reason) {
     return res.status(400).json({ error: "Missing fields" });
@@ -21,6 +21,7 @@ export default async function handler(req, res) {
           title: "Нове покарання",
           color: 0xff0000,
           fields: [
+            { name: "Тип покарання", value: punishType || "Не вказано", inline: false },
             { name: "Від кого", value: from, inline: false },
             { name: "Кому", value: user, inline: false },
             { name: "Причина", value: reason, inline: false },
